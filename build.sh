@@ -15,5 +15,5 @@ cd `dirname $0`
 # Compile code.
 mkdir -p build
 cd build
-cmake ..
+CC=/usr/bin/gcc CXX=/usr/bin/g++  cmake ..
 make $*
