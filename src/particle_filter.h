@@ -11,6 +11,7 @@
 
 #include <string>
 #include <vector>
+#include <random>
 #include "helper_functions.h"
 
 struct Particle {
@@ -22,6 +23,9 @@ struct Particle {
     std::vector<int> associations;
     std::vector<double> sense_x;
     std::vector<double> sense_y;
+    
+    void print_particle() const;
+    void prediction(double delta_t, double std_pos[], double velocity, double yaw_rate);
 };
 
 
@@ -60,11 +64,14 @@ public:
     /**
      * dataAssociation Finds which observations correspond to which landmarks
      *   (likely by using a nearest-neighbors data association).
-     * @param predicted Vector of predicted landmark observations
+     * @param particle target Particle
      * @param observations Vector of landmark observations
+     * @param map_landmarks Map class containing map landmarks
      */
-    void dataAssociation(std::vector<LandmarkObs> predicted,
-                         std::vector<LandmarkObs>& observations);
+    std::vector<Map::single_landmark_s> dataAssociation(const Particle particle,
+                                                        double sensor_range,
+                                                        const std::vector<Map::single_landmark_s>& observations,
+                                                        const Map &map_landmarks);
     
     /**
      * updateWeights Updates the weights for each particle based on the likelihood
